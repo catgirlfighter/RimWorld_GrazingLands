@@ -1,1 +1,2 @@
-# RimWorld_GrazingLandsRIMWORLD MOD - Grazing Lands is a mod for RimWorld.
+# RimWorld_GrazingLands
+RIMWORLD MOD - Grazing Lands is a mod for RimWorld.
