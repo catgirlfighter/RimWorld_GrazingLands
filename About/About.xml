@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Grazing Lands</name>
+	<author>avilmask</author>
+	<supportedVersions><li>1.0</li></supportedVersions>
+	<url>none</url>
+	<description>Animals don't destroy grass and eat according to their size.
+
+Powerd by Harmony (included into mod).
+</description>
+</ModMetaData>

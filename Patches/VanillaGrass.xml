@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Plant_Grass" or defName="Plant_TallGrass" or defName="Plant_Chokevine" or defName="Plant_Astragalus" or defName="Plant_Moss"  or defName="Plant_Moss" or defName="Plant_ShrubLow"]/plant</xpath>
+		<value>
+           		<harvestAfterGrowth>0.20</harvestAfterGrowth>
+			<harvestMinGrowth>0.40</harvestMinGrowth>
+			<harvestedThingDef>Hay</harvestedThingDef>
+			<harvestYield>5</harvestYield>
+			<harvestTag>Unharvestable</harvestTag>
+		</value>
+	</Operation>
+</Patch>
