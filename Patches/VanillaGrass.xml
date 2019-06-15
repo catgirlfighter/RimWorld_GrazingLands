@@ -6,7 +6,7 @@
            		<harvestAfterGrowth>0.20</harvestAfterGrowth>
 			<harvestMinGrowth>0.40</harvestMinGrowth>
 			<harvestedThingDef>Hay</harvestedThingDef>
-			<harvestYield>5</harvestYield>
+			<harvestYield>8</harvestYield>
 			<harvestTag>Unharvestable</harvestTag>
 		</value>
 	</Operation>
