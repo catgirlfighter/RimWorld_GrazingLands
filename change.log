@@ -1,4 +1,7 @@
-﻿1.0.0
+﻿1.0.1
+- plants with high growth rate regenerate faster.
+
+1.0.0
 - animals now can eat yield from growing plants with 50% efficiancy. They eat as much as they need to be satisfied;
 - instead of destroying plants with possible yield right away, animals damage them instead, based on how much they ate (i.e. big animals still can one shot plants);
 - plants slowly regenerate. Not very useful for short living plants, though;

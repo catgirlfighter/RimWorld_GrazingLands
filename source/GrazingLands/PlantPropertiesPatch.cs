@@ -129,7 +129,8 @@ namespace GrazingLands
         {
             static void Postfix(ref Plant __instance)
             {
-                if (!__instance.Destroyed && Mathf.Round(GenLocalDate.DayTick(__instance.Map) / 2000) == 0 && !__instance.Dying && __instance.HitPoints < __instance.MaxHitPoints) 
+                if (!__instance.Destroyed && __instance.HitPoints < __instance.MaxHitPoints && !__instance.Dying)
+                    if (GenLocalDate.DayTick(__instance.Map) / 2000 == 0 || __instance.GrowthRate > 1f && GenLocalDate.DayTick(__instance.Map) / 2000 == 30)
                     __instance.HitPoints += 1;
             }
         }
