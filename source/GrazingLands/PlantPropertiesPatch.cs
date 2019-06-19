@@ -27,7 +27,7 @@ namespace GrazingLands
                 val = Mathf.Floor(val);
             return val;
         }
-
+        /*
         [HarmonyPatch(typeof(RimWorld.PlantProperties), "Sowable", MethodType.Getter)]
         static class PlantProperties_Sowable_GrazingLandsPatch
         {
@@ -41,7 +41,7 @@ namespace GrazingLands
                 return true;
             }
         }
-
+        */
         [HarmonyPatch(typeof(RimWorld.Plant), "HarvestableNow", MethodType.Getter)]
         static class Plant_HarvestableNow_GrazingLandsPatch
         {
@@ -134,7 +134,7 @@ namespace GrazingLands
                     int d = GenLocalDate.DayTick(__instance.Map) / 2000;
                     if (d == 0)
                         __instance.HitPoints += 1;
-                    if (__instance.GrowthRateFactor_Fertility >= 1.5f && (d == 10 || d == 20))
+                    if (__instance.GrowthRateFactor_Fertility > 1.5f && (d == 10 || d == 20))
                         __instance.HitPoints += 1;
                     else if (__instance.GrowthRateFactor_Fertility > 1f && d == 15)
                         __instance.HitPoints += 1;
