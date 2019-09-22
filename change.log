@@ -1,4 +1,8 @@
-﻿1.0.2
+﻿1.1
+- did a rework. Removed hidden yield. Base nutrien value of a plant is used instead (as it is normally), and animals reduce growing progress of a plant;
+- left one change to vanilla grass: it can be eaten as soon as it's 40% grown, it's marked as "not destroyed after consumption" (like berry bushes).
+
+1.0.2
 - removed "sowable" restrictions;
 
 1.0.1

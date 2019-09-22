@@ -42,6 +42,8 @@ namespace GrazingLands
             }
         }
         */
+
+        /*
         [HarmonyPatch(typeof(RimWorld.Plant), "HarvestableNow", MethodType.Getter)]
         static class Plant_HarvestableNow_GrazingLandsPatch
         {
@@ -69,28 +71,54 @@ namespace GrazingLands
                 return true;
             }
         }
+        */
 
         [HarmonyPatch(typeof(RimWorld.Plant), "IngestedCalculateAmounts")]
         static class Plant_IngestedCalculateAmounts_GrazingLandsPatch
         {
             static bool Prefix(ref Plant __instance, Pawn ingester, float nutritionWanted, out int numTaken, out float nutritionIngested)
             {
-                if (__instance.def.plant.harvestYield <= 0 || __instance.def.plant.harvestedThingDef == null || !__instance.def.plant.harvestedThingDef.IsNutritionGivingIngestible)
+                if (/*__instance.def.plant.harvestYield <= 0 ||*/ __instance.def.plant.harvestedThingDef != null && !__instance.def.plant.harvestedThingDef.IsNutritionGivingIngestible)
                 {
                     numTaken = 0;
                     nutritionIngested = 0f;
                     return true;
                 }
-            
-                //numTaken = 0;
-                float maxAmount = RoundUp(__instance.def.plant.harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
-                float needAmount = RoundUp(nutritionWanted / __instance.def.plant.harvestedThingDef.ingestible.CachedNutrition);
+
+                float maxAmount = 0;
+                float needAmount = 0;
+                float harvestYield = 0;
+                float nutrition = 0;
+                bool hasyield = __instance.def.plant.harvestYield > 0 && __instance.def.plant.harvestedThingDef != null;
+
+                //Log.Message($"hasyield={hasyield}");
+
+                if (hasyield)
+                {
+                    harvestYield = __instance.def.plant.harvestYield;
+                    nutrition = __instance.def.plant.harvestedThingDef.ingestible.CachedNutrition;
+                    maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
+                    //Log.Message($"0.harvestYield={harvestYield},nutrition={nutrition},maxAmount={maxAmount}");
+                } else
+                {
+                    harvestYield = 100;
+                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, true) / harvestYield;
+                    if (__instance.def.plant.HarvestDestroys)
+                        maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
+                    else
+                        maxAmount = RoundUp(harvestYield * __instance.Growth);
+                    //Log.Message($"1.harvestYield={harvestYield},nutrition={nutrition},maxAmount={maxAmount}");
+                }
+
+                needAmount = RoundUp(nutritionWanted / nutrition);
+                //Log.Message($"needAmount={needAmount}");
 
                 if (__instance.def.plant.HarvestDestroys)
                 {
                     maxAmount = Mathf.Min(maxAmount, needAmount);
-                    nutritionIngested = maxAmount * __instance.def.plant.harvestedThingDef.ingestible.CachedNutrition;
-                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / __instance.def.plant.harvestYield);
+                    nutritionIngested = maxAmount * nutrition;
+
+                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
                     potentialDamage = __instance.MaxHitPoints * potentialDamage * 2f;
                     if (__instance.HitPoints - potentialDamage <= 0)
                     {
@@ -105,9 +133,18 @@ namespace GrazingLands
                 else
                 {
                     numTaken = 0;
-                    maxAmount = Mathf.Min(maxAmount, needAmount * 2f);
-                    nutritionIngested = maxAmount / 2f * __instance.def.plant.harvestedThingDef.ingestible.CachedNutrition;
-                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / __instance.def.plant.harvestYield);
+                    if (hasyield)
+                    {
+                        maxAmount = Mathf.Min(maxAmount, needAmount * 2f);
+                        nutritionIngested = maxAmount / 2f * nutrition;
+                    } 
+                    else
+                    {
+                        maxAmount = Mathf.Min(maxAmount, needAmount);
+                        nutritionIngested = maxAmount * nutrition;
+                    }
+
+                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
                     __instance.Growth -= potentialDamage;
                     if (__instance.Growth < 0.08f)
                     {
