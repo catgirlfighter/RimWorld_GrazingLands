@@ -91,27 +91,22 @@ namespace GrazingLands
                 float nutrition = 0;
                 bool hasyield = __instance.def.plant.harvestYield > 0 && __instance.def.plant.harvestedThingDef != null;
 
-                //Log.Message($"hasyield={hasyield}");
-
                 if (hasyield)
                 {
                     harvestYield = __instance.def.plant.harvestYield;
                     nutrition = __instance.def.plant.harvestedThingDef.ingestible.CachedNutrition;
                     maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
-                    //Log.Message($"0.harvestYield={harvestYield},nutrition={nutrition},maxAmount={maxAmount}");
                 } else
                 {
                     harvestYield = 100;
-                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, true) / harvestYield;
+                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / harvestYield * (1 + Settings.multiplier * 4);
                     if (__instance.def.plant.HarvestDestroys)
                         maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
                     else
                         maxAmount = RoundUp(harvestYield * __instance.Growth);
-                    //Log.Message($"1.harvestYield={harvestYield},nutrition={nutrition},maxAmount={maxAmount}");
                 }
 
                 needAmount = RoundUp(nutritionWanted / nutrition);
-                //Log.Message($"needAmount={needAmount}");
 
                 if (__instance.def.plant.HarvestDestroys)
                 {

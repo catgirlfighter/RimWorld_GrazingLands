@@ -53,6 +53,7 @@
     <Compile Include="PlantPropertiesPatch.cs" />
     <Compile Include="GrazingLands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
