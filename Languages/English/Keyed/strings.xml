@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<!-- settings -->
-	<multiplierLabel>Nutrition value of grass: {0}%</multiplierLabel>
+	<multiplierLabel>Nutrition value of a grass: {0}%</multiplierLabel>
+	<consumeChanceLabel>Chance to destroy a grass patch on consumption: {0}%</consumeChanceLabel>
+	<yieldDamageLabel>Damage done to a crop based on ratio of amount consumed to its yield: {0}%</yieldDamageLabel>
 </LanguageData>

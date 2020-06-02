@@ -42,7 +42,7 @@ namespace GrazingLands
                 } else
                 {
                     harvestYield = 100;
-                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / harvestYield * (1 + Settings.multiplier * 4);
+                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / Settings.Multiplier;
                     if (__instance.def.plant.HarvestDestroys)
                         maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
                     else
@@ -57,7 +57,7 @@ namespace GrazingLands
                     nutritionIngested = maxAmount * nutrition;
 
                     float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
-                    potentialDamage = __instance.MaxHitPoints * potentialDamage * 2f;
+                    potentialDamage = __instance.MaxHitPoints * potentialDamage * Settings.YieldDamage;
                     if (__instance.HitPoints - potentialDamage <= 0)
                     {
                         numTaken = 1;
@@ -71,10 +71,11 @@ namespace GrazingLands
                 else
                 {
                     numTaken = 0;
+
                     if (hasyield)
                     {
-                        maxAmount = Mathf.Min(maxAmount, needAmount * 2f);
-                        nutritionIngested = maxAmount / 2f * nutrition;
+                        maxAmount = Mathf.Min(maxAmount, needAmount * Settings.YieldDamage);
+                        nutritionIngested = maxAmount / Settings.YieldDamage * nutrition;
                     } 
                     else
                     {
@@ -82,12 +83,25 @@ namespace GrazingLands
                         nutritionIngested = maxAmount * nutrition;
                     }
 
-                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
-                    __instance.Growth -= potentialDamage;
-                    if (__instance.Growth < 0.08f)
-                    {
-                        __instance.Growth = 0.08f;
-                    }
+                        float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
+                        __instance.Growth -= potentialDamage;
+                        if (__instance.Growth < 0.08f)
+                        {
+                            if (!hasyield && Settings.ConsumeChance > 0)
+                                if (Settings.ConsumeChance == 100)
+                                    numTaken = 1;
+                                else
+                                {
+                                    Random r = new Random();
+                                    int val = Random.Range(1, 100);
+                                    if (val <= Settings.ConsumeChance)
+                                        numTaken = 1;
+                                }
+
+                                if (numTaken == 0)
+                                    __instance.Growth = 0.08f;
+                        }
+
                     if (__instance.Spawned)
                     {
                         __instance.Map.mapDrawer.MapMeshDirty(__instance.Position, MapMeshFlag.Things);

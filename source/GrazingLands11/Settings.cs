@@ -1,5 +1,4 @@
 ﻿using System;
-using HarmonyLib;
 using UnityEngine;
 using Verse;
 
@@ -7,7 +6,13 @@ namespace GrazingLands
 {
     public class Settings : ModSettings
     {
-        public static float multiplier = 0f;
+        private static float multiplier = 0f;
+        private static float consumeChance = 5f;
+        private static float yieldDamage = 0f;
+
+        public static float Multiplier { get { return 1 + multiplier * 4; } }
+        public static int ConsumeChance { get { return (int)Math.Round(consumeChance * 100); } }
+        public static float YieldDamage { get { return 1 + yieldDamage * 4; } }
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
@@ -15,6 +20,10 @@ namespace GrazingLands
             listing_Standard.Begin(inRect);
             listing_Standard.Label("multiplierLabel".Translate((100 + Math.Round(multiplier, 3) * 400).ToString()));
             multiplier = listing_Standard.Slider(multiplier, 0f, 1f);
+            listing_Standard.Label("consumeChanceLabel".Translate(Math.Round(consumeChance * 100).ToString()));
+            consumeChance = listing_Standard.Slider(consumeChance, 0f, 1f);
+            listing_Standard.Label("yieldDamageLabel".Translate((100 + Math.Round(yieldDamage, 3) * 400).ToString()));
+            yieldDamage = listing_Standard.Slider(yieldDamage, 0f, 1f);
             listing_Standard.End();
         }
 
@@ -22,6 +31,8 @@ namespace GrazingLands
         {
             base.ExposeData();
             Scribe_Values.Look(ref multiplier, "multiplier", 0f, false);
+            Scribe_Values.Look(ref consumeChance, "consumeChance", 5f, false);
+            Scribe_Values.Look(ref yieldDamage, "yieldDamage", 0.25f, false);
         }
     }
 }

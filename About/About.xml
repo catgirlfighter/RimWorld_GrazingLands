@@ -8,6 +8,13 @@
 	</supportedVersions>
 	<url>none</url>
 	<packageId>avilmask.GrazingLands</packageId>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+		</li>
+	</modDependencies>
 	<description>Animals don't destroy grass and eat according to their size.
 Powerd by Harmony (included into mod).
 </description>
