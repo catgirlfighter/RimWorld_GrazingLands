@@ -42,7 +42,7 @@ namespace GrazingLands
                 } else
                 {
                     harvestYield = 100;
-                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / Settings.Multiplier;
+                    nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / harvestYield * Settings.Multiplier;
                     if (__instance.def.plant.HarvestDestroys)
                         maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
                     else

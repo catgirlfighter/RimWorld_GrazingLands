@@ -1,4 +1,7 @@
-﻿1.1.3
+﻿1.1.4
+- fixed and made a reset for consumption chance being 500% at a start. Sorry about that;
+
+1.1.3
 - officially added Harmony dependency;
 - added a slider for consumption chance that destroys plant. Works when plant is completely depleted and only for those plants that don't have yield, i.e. doesn't affect plants like wild berry bushes (default 5%);
 - added a slider, how much damage crops receive when animals eat them based on total possible yield. By default it's 200% (it means plant dies before animals even eat all accessible yield, in order to make feeding animals this way unattractive);

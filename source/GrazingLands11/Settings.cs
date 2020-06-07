@@ -7,7 +7,7 @@ namespace GrazingLands
     public class Settings : ModSettings
     {
         private static float multiplier = 0f;
-        private static float consumeChance = 5f;
+        private static float consumeChance = 0f;
         private static float yieldDamage = 0f;
 
         public static float Multiplier { get { return 1 + multiplier * 4; } }
@@ -31,7 +31,7 @@ namespace GrazingLands
         {
             base.ExposeData();
             Scribe_Values.Look(ref multiplier, "multiplier", 0f, false);
-            Scribe_Values.Look(ref consumeChance, "consumeChance", 5f, false);
+            Scribe_Values.Look(ref consumeChance, "consumeChance2", 0f, false);
             Scribe_Values.Look(ref yieldDamage, "yieldDamage", 0.25f, false);
         }
     }
