@@ -1,2 +1,2 @@
 # RimWorld_GrazingLands
-RIMWORLD MOD - Grazing Lands is a mod for RimWorld.
+https://steamcommunity.com/sharedfiles/filedetails/?id=1770268130
