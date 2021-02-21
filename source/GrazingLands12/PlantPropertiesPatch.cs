@@ -21,7 +21,7 @@ namespace GrazingLands
         {
             static bool Prefix(ref Plant __instance, Pawn ingester, float nutritionWanted, out int numTaken, out float nutritionIngested)
             {
-                if (/*__instance.def.plant.harvestYield <= 0 ||*/ __instance.def.plant.harvestedThingDef != null && !__instance.def.plant.harvestedThingDef.IsNutritionGivingIngestible)
+                if (__instance.def.plant.harvestedThingDef != null && !__instance.def.plant.harvestedThingDef.IsNutritionGivingIngestible)
                 {
                     numTaken = 0;
                     nutritionIngested = 0f;
@@ -34,6 +34,9 @@ namespace GrazingLands
                 float nutrition = 0;
                 bool hasyield = __instance.def.plant.harvestYield > 0 && __instance.def.plant.harvestedThingDef != null;
 
+                bool WildPlant = !__instance.def.plant.Sowable && __instance.def.IsIngestible && __instance.def.ingestible.foodType == FoodTypeFlags.Plant;
+                bool HarvestDestroys = __instance.def.plant.HarvestDestroys && !WildPlant;
+
                 if (hasyield)
                 {
                     harvestYield = __instance.def.plant.harvestYield;
@@ -43,7 +46,7 @@ namespace GrazingLands
                 {
                     harvestYield = 100;
                     nutrition = __instance.GetStatValue(StatDefOf.Nutrition, false) / harvestYield * Settings.Multiplier;
-                    if (__instance.def.plant.HarvestDestroys)
+                    if (HarvestDestroys)
                         maxAmount = RoundUp(harvestYield * Mathf.Lerp(0.5f, 1f, __instance.HitPoints / __instance.MaxHitPoints));
                     else
                         maxAmount = RoundUp(harvestYield * __instance.Growth);
@@ -51,7 +54,7 @@ namespace GrazingLands
 
                 needAmount = RoundUp(nutritionWanted / nutrition);
 
-                if (__instance.def.plant.HarvestDestroys)
+                if (HarvestDestroys)
                 {
                     maxAmount = Mathf.Min(maxAmount, needAmount);
                     nutritionIngested = maxAmount * nutrition;
@@ -83,24 +86,24 @@ namespace GrazingLands
                         nutritionIngested = maxAmount * nutrition;
                     }
 
-                        float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
-                        __instance.Growth -= potentialDamage;
-                        if (__instance.Growth < 0.08f)
-                        {
-                            if (!hasyield && Settings.ConsumeChance > 0)
-                                if (Settings.ConsumeChance == 100)
+                    float potentialDamage = Mathf.Lerp(0f, 1f, maxAmount / harvestYield);
+                    __instance.Growth -= potentialDamage;
+                    if (__instance.Growth < 0.08f)
+                    {
+                        if (!hasyield && Settings.ConsumeChance > 0)
+                            if (Settings.ConsumeChance == 100)
+                                numTaken = 1;
+                            else
+                            {
+                                Random r = new Random();
+                                int val = Random.Range(1, 100);
+                                if (val <= Settings.ConsumeChance)
                                     numTaken = 1;
-                                else
-                                {
-                                    Random r = new Random();
-                                    int val = Random.Range(1, 100);
-                                    if (val <= Settings.ConsumeChance)
-                                        numTaken = 1;
-                                }
+                            }
 
-                                if (numTaken == 0)
-                                    __instance.Growth = 0.08f;
-                        }
+                            if (numTaken == 0)
+                                __instance.Growth = 0.08f;
+                    }
 
                     if (__instance.Spawned)
                     {
@@ -108,27 +111,7 @@ namespace GrazingLands
                     }
                 }
 
-
                 return false;
-            }
-        }
-
-        //[HarmonyPatch(typeof(RimWorld.Plant), "TickLong")]
-        static class Plant_TickLong_GrazingLandsPatch
-        {
-            static void Postfix(ref Plant __instance)
-            {
-                if (!__instance.Destroyed && __instance.HitPoints < __instance.MaxHitPoints && !__instance.Dying)
-                {
-                    int d = GenLocalDate.DayTick(__instance.Map) / 2000;
-                    if (d == 0)
-                        __instance.HitPoints += 1;
-                    if (__instance.GrowthRateFactor_Fertility > 1.5f && (d == 10 || d == 20))
-                        __instance.HitPoints += 1;
-                    else if (__instance.GrowthRateFactor_Fertility > 1f && d == 15)
-                        __instance.HitPoints += 1;
-
-                }
             }
         }
     }

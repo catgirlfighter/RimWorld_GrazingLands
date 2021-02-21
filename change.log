@@ -1,4 +1,7 @@
-﻿1.1.5
+﻿1.1.6
+- instead of changing vanilla values, made so any non-sowable plants considered to be "undestroyable" when consumed;
+
+1.1.5
 - updated for 1.2;
 
 1.1.4
