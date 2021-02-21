@@ -34,8 +34,8 @@ namespace GrazingLands
                 float nutrition = 0;
                 bool hasyield = __instance.def.plant.harvestYield > 0 && __instance.def.plant.harvestedThingDef != null;
 
-                bool WildPlant = !__instance.def.plant.Sowable && __instance.def.IsIngestible && __instance.def.ingestible.foodType == FoodTypeFlags.Plant;
-                bool HarvestDestroys = __instance.def.plant.HarvestDestroys && !WildPlant;
+                bool WildOrNonCrop = (!__instance.def.plant.Sowable || __instance.def.plant.harvestedThingDef == null) && __instance.def.IsIngestible && __instance.def.ingestible.foodType == FoodTypeFlags.Plant;
+                bool HarvestDestroys = __instance.def.plant.HarvestDestroys && !WildOrNonCrop;
 
                 if (hasyield)
                 {
