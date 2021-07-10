@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<!-- settings -->
+	<multiplierLabel>Valor nutricional de una hierba: {0}%</multiplierLabel>
+	<consumeChanceLabel>Posibilidad de destruir un parche de hierba en el consumo: {0}%</consumeChanceLabel>
+	<yieldDamageLabel>Daños causados a un cultivo en función de la relación entre la cantidad consumida y su rendimiento: {0}%</yieldDamageLabel>
+</LanguageData>
