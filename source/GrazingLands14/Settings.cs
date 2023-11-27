@@ -32,7 +32,7 @@ namespace GrazingLands
             base.ExposeData();
             Scribe_Values.Look(ref multiplier, "multiplier", 0f, false);
             Scribe_Values.Look(ref consumeChance, "consumeChance2", 0f, false);
-            Scribe_Values.Look(ref yieldDamage, "yieldDamage", 0.25f, false);
+            Scribe_Values.Look(ref yieldDamage, "yieldDamage", 0.5f, false);
         }
     }
 }
