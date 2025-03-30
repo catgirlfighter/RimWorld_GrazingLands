@@ -1,4 +1,7 @@
-﻿1.2.0
+﻿1.2.1
+- changed defaults to ones description says (0% -> 5% consumption chance, 300% -> 200% damage done). Formulas changed, but I forgot to change defaults.
+
+1.2.0
 - 1.5 or whatever;
 
 1.1.8
